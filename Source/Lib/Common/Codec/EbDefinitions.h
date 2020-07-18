@@ -619,6 +619,9 @@ extern "C" {
 #define ENABLE_GM_LIST1    1 // Enable GM_LIST1
 #define CDEF_CLI           1 // Improve CLI Support for CDEF
 #define REF_PRUNE_CAT_TUNE 1 // Tune the allowable references per category to improve trade-offs
+
+// sq64_presets
+#define USE_SQ_64 1 // Turn off NSQ and use SB_64x64 (all modes); use at least [-1,+1] depth refinement
 #endif
 // END  SVT_02_TEMP /////////////////////////////////////////////////////////
 
