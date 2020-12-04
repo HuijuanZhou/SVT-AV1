@@ -384,8 +384,10 @@ void *initial_rate_control_kernel(void *input_ptr) {
                 }
             }
             if (scs_ptr->static_config.enable_tpl_la && scs_ptr->in_loop_me == 0) {
-                svt_post_semaphore(pcs_ptr->pame_done_semaphore);
-                atomic_set_u32(&pcs_ptr->pame_done, 1);
+                svt_block_on_mutex(pcs_ptr->pame_done.mutex);
+                pcs_ptr->pame_done.obj = 1;
+                pthread_cond_broadcast(&pcs_ptr->cond);
+                svt_release_mutex(pcs_ptr->pame_done.mutex);
             }
             if (scs_ptr->static_config.look_ahead_distance == 0 ||
                 scs_ptr->static_config.enable_tpl_la == 0) {

@@ -478,7 +478,7 @@ static EbErrorType reset_pcs_av1(PictureParentControlSet *pcs_ptr) {
     pcs_ptr->max_number_of_pus_per_sb        = SQUARE_PU_COUNT;
 
     atomic_set_u32(&pcs_ptr->pame_done, 0);
-    EB_CREATE_SEMAPHORE(pcs_ptr->pame_done_semaphore, 0, 1);
+    pthread_cond_init(&pcs_ptr->cond,NULL);
 
     pcs_ptr->num_tpl_grps      = 0;
     pcs_ptr->num_tpl_processed = 0;

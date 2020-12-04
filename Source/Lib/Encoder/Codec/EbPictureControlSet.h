@@ -836,7 +836,7 @@ typedef struct PictureParentControlSet {
     uint8_t      tpl_me_segments_row_count;
     uint8_t      tpl_me_done;
     AtomicVarU32 pame_done; //set when PA ME is done.
-    EbHandle     pame_done_semaphore;
+    pthread_cond_t   cond;
     uint8_t      num_tpl_grps;
     uint8_t      num_tpl_processed;
     int16_t      tf_segments_total_count;

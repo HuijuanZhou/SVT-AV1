@@ -1138,7 +1138,7 @@ EbErrorType tpl_mc_flow(EncodeContext *encode_context_ptr, SequenceControlSet *s
             svt_block_on_mutex(pcs_ptr->tpl_group[i]->pame_done.mutex);
 
             if (pcs_ptr->tpl_group[i]->pame_done.obj == 0) {
-                svt_block_on_semaphore(pcs_ptr->tpl_group[i]->pame_done_semaphore);
+                pthread_cond_wait(&pcs_ptr->tpl_group[i]->cond, pcs_ptr->tpl_group[i]->pame_done.mutex);
             }
             svt_release_mutex(pcs_ptr->tpl_group[i]->pame_done.mutex);
         }
@@ -7761,7 +7761,7 @@ void *rate_control_kernel(void *input_ptr) {
             }
 #endif
             total_number_of_fb_frames++;
-            EB_DESTROY_SEMAPHORE(parentpicture_control_set_ptr->pame_done_semaphore);
+            pthread_cond_destroy(&parentpicture_control_set_ptr->cond);
 
             // Release the SequenceControlSet
             svt_release_object(parentpicture_control_set_ptr->scs_wrapper_ptr);
